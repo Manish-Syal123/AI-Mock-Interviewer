@@ -1,9 +1,32 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { AudioLines } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import useSpeechToText from "react-hook-speech-to-text";
 import Webcam from "react-webcam";
 
 const RecordAnswerSection = () => {
+  const [userAnswer, setUserAnswer] = useState("");
+
+  const {
+    error,
+    interimResult,
+    isRecording,
+    results,
+    startSpeechToText,
+    stopSpeechToText,
+  } = useSpeechToText({
+    continuous: true,
+    useLegacyResults: false,
+  });
+
+  useEffect(() => {
+    results.map((result) =>
+      setUserAnswer((prevAns) => prevAns + result.transcript)
+    );
+  }, [results]);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col mt-20 justify-center items-center bg-black rounded-lg p-5">
@@ -23,11 +46,33 @@ const RecordAnswerSection = () => {
           }}
         />
       </div>
-      <Button variant="outline" className="my-10 border border-black">
-        Record Answer
+
+      <Button
+        onClick={isRecording ? stopSpeechToText : startSpeechToText}
+        variant="outline"
+        className="my-10 border border-black"
+      >
+        {isRecording ? (
+          <h2 className="text-red-600 flex gap-2">
+            <AudioLines /> Stop Recording{" "}
+          </h2>
+        ) : (
+          "Record Answer"
+        )}
+      </Button>
+      <Button onClick={() => console.log(userAnswer)}>
+        Show My Answer on Console
       </Button>
     </div>
   );
 };
 
 export default RecordAnswerSection;
+
+// This will show/display the user spoken text on screen
+// <ul>
+//   {results.map((result) => (
+//     <li key={result.timestamp}>{result.transcript}</li>
+//   ))}
+//   {interimResult && <li>{interimResult}</li>}
+// </ul>
