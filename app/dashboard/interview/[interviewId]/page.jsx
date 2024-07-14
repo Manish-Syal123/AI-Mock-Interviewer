@@ -29,6 +29,7 @@ const Interview = ({ params }) => {
       console.error("Error Fetching UserInterview Details: ", error);
     }
   };
+
   return (
     <div className="my-10">
       <h2 className="font-bold text-2xl">Let's Get Started</h2>

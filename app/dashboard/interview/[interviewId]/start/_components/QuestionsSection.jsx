@@ -17,6 +17,7 @@ const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
           {mockInterviewQuestion &&
             mockInterviewQuestion.map((questions, index) => (
               <h2
+                key={index}
                 className={`p-2 border rounded-full
             text-xs md:text-sm text-center  cursor-pointer
             ${
