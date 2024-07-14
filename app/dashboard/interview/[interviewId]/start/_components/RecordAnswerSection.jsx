@@ -28,6 +28,7 @@ const RecordAnswerSection = ({
     interimResult,
     isRecording,
     results,
+    setResults,
     startSpeechToText,
     stopSpeechToText,
   } = useSpeechToText({
@@ -97,8 +98,10 @@ const RecordAnswerSection = ({
 
         if (resp) {
           toast.success("User Answer Recorded Succefully!!");
+          setUserAnswer("");
+          setResults([]);
         }
-        setUserAnswer("");
+        setResults([]);
         setLoading(false);
       } catch (error) {
         toast.error(
