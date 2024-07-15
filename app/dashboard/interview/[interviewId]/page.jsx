@@ -7,6 +7,8 @@ import { Lightbulb, Rocket, WebcamIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Webcam from "react-webcam";
+import rocketLaunch from "@/public/rocketLaunch.json";
+import Lottie from "lottie-react";
 
 const Interview = ({ params }) => {
   const [interviewData, setInterviewData] = useState();
@@ -91,6 +93,11 @@ const Interview = ({ params }) => {
               >
                 Enable Web Cam and Microphone
               </Button>
+              {/* <Lottie
+                animationData={rocketLaunch}
+                loop={true}
+                className="w-8/12 h-96"
+              /> */}
             </>
           )}
         </div>
@@ -98,8 +105,13 @@ const Interview = ({ params }) => {
       {/* Start Button */}
       <div className="flex justify-end items-end">
         <Link href={"/dashboard/interview/" + params.interviewId + "/start"}>
-          <Button className="flex gap-2">
-            <Rocket />
+          <Button className="flex gap-1">
+            {/* <Rocket /> */}
+            <Lottie
+              animationData={rocketLaunch}
+              loop={true}
+              className="h-32 z-10 absolute"
+            />
             Start Interview
           </Button>
         </Link>

@@ -11,6 +11,8 @@ import {
 import { ChevronsUpDown, House } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import NoResultFound from "@/public/NoResultFound.json";
+import Lottie from "lottie-react";
 
 const Feedback = ({ params }) => {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -37,9 +39,15 @@ const Feedback = ({ params }) => {
   return (
     <div className="p-10">
       {feedbackList?.length == 0 ? (
-        <h2 className="font-bold text-xl text-gray-500">
-          No Interview Feedback Record Found
-        </h2>
+        <div className="flex flex-col justify-center items-center">
+          <Lottie
+            animationData={NoResultFound}
+            loop={true}
+            className="w-8/12 h-96"
+          />
+
+          <p className="font-bold">No Interview Feedback result found! </p>
+        </div>
       ) : (
         <>
           <h2 className="text-3xl font-bold text-green-500">
@@ -87,12 +95,14 @@ const Feedback = ({ params }) => {
             ))}
         </>
       )}
-      <Button
-        onClick={() => router.replace("/dashboard")}
-        className="flex justify-center items-center gap-2 mt-6"
-      >
-        <House /> Go Home
-      </Button>
+      <div className="flex justify-center items-center">
+        <Button
+          onClick={() => router.replace("/dashboard")}
+          className="flex justify-center items-center gap-2 mt-6"
+        >
+          <House /> Go Home
+        </Button>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import AddNew from "@/public/AddNew.json";
+import Lottie from "lottie-react";
 
 const AddNewInterview = () => {
   const [openDialog, setOpenDialog] = useState();
@@ -86,7 +88,9 @@ const AddNewInterview = () => {
       cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h2 className="font-medium text-lg text-center">+ Add New</h2>
+        <h2 className="flex justify-center items-center font-medium text-lg text-center">
+          <Lottie animationData={AddNew} loop={true} className="h-16" /> Add New
+        </h2>
       </div>
       <Dialog open={openDialog}>
         {/* <DialogTrigger></DialogTrigger> */}
