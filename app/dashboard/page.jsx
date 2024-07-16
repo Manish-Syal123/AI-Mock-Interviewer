@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddNewInterview from "./_components/AddNewInterview";
 import InterviewList from "./_components/InterviewList";
+import YourCredits from "./_components/YourCredits";
 
 const Dashboard = () => {
   return (
@@ -10,8 +11,10 @@ const Dashboard = () => {
         Create and Start your AI Mockup Interview
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 my-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">
         <AddNewInterview />
+        <div></div>
+        <YourCredits />
       </div>
 
       {/* List of Interviews */}
