@@ -19,11 +19,11 @@ export const GetInterviewList = async (email) => {
   }
 };
 
-export const UpdateUserCredits = async (email, remainingCredits) => {
+export const UpdateUserCredits = async (email, newCredits) => {
   try {
     const result = await db
       .update(UserDetails)
-      .set({ credits: remainingCredits })
+      .set({ credits: newCredits })
       .where(eq(UserDetails.userEmail, email));
     console.log("User credits updated 🚀", result);
     return result;

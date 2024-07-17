@@ -29,7 +29,7 @@ const YourCredits = () => {
   }, [user]);
 
   const totalCredits = userInfo?.credits || 0;
-  const creditsUsed = totalInterviewsCreated || 0;
+  const creditsUsed = totalInterviewsCreated * 2 || 0;
   const remainingCredits = totalCredits - creditsUsed * 2;
 
   return (

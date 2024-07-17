@@ -33,6 +33,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { UpdateUserCredits } from "@/app/_Serveractions";
 
 const AddNewInterview = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -86,6 +87,9 @@ const AddNewInterview = () => {
             setOpenDialog(false);
             router.push("/dashboard/interview/" + resp[0]?.mockId);
           }
+
+          //logic to Update Credits
+          updateCredits();
         }
       } catch (error) {
         console.error("Error while adding response to Backend : ", error);
@@ -95,6 +99,22 @@ const AddNewInterview = () => {
     } catch (error) {
       console.error("Error while Generating MockJsonResp : ", error);
       setLoading(false);
+    }
+  };
+
+  const updateCredits = async () => {
+    if (user && userInfo?.credits > 0) {
+      try {
+        const newCredits = userInfo?.credits - 2;
+        const email = user?.primaryEmailAddress?.emailAddress;
+        await UpdateUserCredits(email, newCredits);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          credits: newCredits,
+        }));
+      } catch (error) {
+        console.log("Error updating user credits", error);
+      }
     }
   };
   return (
