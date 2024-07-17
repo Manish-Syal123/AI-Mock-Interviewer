@@ -27,6 +27,6 @@ export const UserDetails = pgTable("userDetails", {
   id: serial("id").primaryKey(),
   userEmail: varchar("userEmail").unique().notNull(),
   credits: integer("credits").default(6).notNull(),
-  totalAmountSpent: integer("totalAmountSpent"), // total amount spent by user to buy credits
+  totalAmountSpent: integer("totalAmountSpent").default(0).notNull(), // total amount spent by user to buy credits
   createdAt: varchar("createdAt"),
 });
