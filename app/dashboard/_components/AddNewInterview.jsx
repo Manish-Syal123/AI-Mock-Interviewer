@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,9 +21,23 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import AddNew from "@/public/AddNew.json";
 import Lottie from "lottie-react";
+import { UserInfoContext } from "@/context/UserInfoContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const AddNewInterview = () => {
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [openDialog, setOpenDialog] = useState();
+  const [upgradeDialog, setUpgradeDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState();
   const [jobDescription, setJobDescription] = useState();
   const [jobExperience, setJobExperience] = useState();
@@ -32,6 +46,9 @@ const AddNewInterview = () => {
   const router = useRouter();
   const { user } = useUser();
 
+  //TODO:
+  //if userInfo?.credits >0 then only user can create new Interviews
+  // to check if userInfo Credits >0 ==> then call the update method to deduct the credits
   const onSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
@@ -86,12 +103,15 @@ const AddNewInterview = () => {
         className="p-10 border-2 border-dashed  border-primary 
       rounded-lg bg-secondary hover:scale-105 hover:shadow-md 
       cursor-pointer transition-all"
-        onClick={() => setOpenDialog(true)}
+        onClick={() => {
+          userInfo?.credits > 0 ? setOpenDialog(true) : setUpgradeDialog(true);
+        }}
       >
         <h2 className="flex justify-center items-center font-medium text-lg text-center">
           <Lottie animationData={AddNew} loop={true} className="h-16" /> Add New
         </h2>
       </div>
+      {/* Add new Interview Diaglo */}
       <Dialog open={openDialog}>
         {/* <DialogTrigger></DialogTrigger> */}
         <DialogContent className="max-w-2xl">
@@ -164,6 +184,30 @@ const AddNewInterview = () => {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      {/* Upgrade Credits Alert Dialog */}
+      <AlertDialog open={upgradeDialog}>
+        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              You don't have enough Credits left !
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Please Upgrade the Credits
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setUpgradeDialog(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => router.push("/dashboard/upgrade")}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
