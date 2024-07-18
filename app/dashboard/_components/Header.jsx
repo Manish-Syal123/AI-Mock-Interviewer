@@ -26,9 +26,10 @@ const Header = () => {
         ${path == "/dashboard/questions" && "text-primary font-extrabold"}
         `}
         >
-          Questions
+          Promotions
         </li>
         <li
+          onClick={() => router.replace("/dashboard/upgrade")}
           className={`font-medium hover:text-primary hover:font-extrabold 
         transition-all cursor-pointer
         ${path == "/dashboard/upgrade" && "text-primary font-extrabold"}

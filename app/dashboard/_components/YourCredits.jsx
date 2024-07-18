@@ -2,13 +2,14 @@ import { GetInterviewList } from "@/app/_Serveractions";
 import { UserInfoContext } from "@/context/UserInfoContext";
 import { useUser } from "@clerk/nextjs";
 import { Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 const YourCredits = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [totalInterviewsCreated, setTotalInterviewsCreated] = useState(0);
   const { user } = useUser();
-
+  const router = useRouter();
   useEffect(() => {
     const fetchInterviews = async () => {
       if (user) {
@@ -32,9 +33,16 @@ const YourCredits = () => {
   const creditsUsed = totalInterviewsCreated * 2 || 0;
   const remainingCredits = totalCredits - creditsUsed * 2;
 
+  const calculatePercentageWidth = () => {
+    const percentage = (creditsUsed / totalCredits) * 100;
+    return percentage >= 100 ? 100 : percentage;
+  };
   return (
     <div className="border-2 border-primary rounded-lg p-2 shadow-xl">
-      <div className="flex gap-2">
+      <div
+        onClick={() => router.push("/dashboard/upgrade")}
+        className="flex gap-2 cursor-pointer hover:text-primary hover:font-extrabold transition-all"
+      >
         <Sparkles />
         <h2 className="font-bold text-primary text-2xl">Upgrade</h2>
       </div>
@@ -46,13 +54,15 @@ const YourCredits = () => {
         <h2 className="font-bold text-gray-400">
           Credits Used: {creditsUsed}{" "}
         </h2>
-        <h2 className="font-bold text-gray-400">percentage : 70%</h2>
+        <h2 className="font-bold text-gray-400">
+          percentage : {calculatePercentageWidth()}%
+        </h2>
       </div>
       <div className="w-full bg-slate-300 h-3 rounded-full mt-2">
         <div
           className="bg-primary h-3 rounded-full"
           style={{
-            width: `70%`,
+            width: `${calculatePercentageWidth()}%`,
           }}
         ></div>
       </div>

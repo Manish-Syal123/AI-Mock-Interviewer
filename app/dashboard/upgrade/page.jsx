@@ -1,7 +1,51 @@
+"use client";
 import planData from "@/utils/planData";
-import React, { useContext } from "react";
+import { useUser } from "@clerk/nextjs";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { Loader } from "lucide-react";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 const Upgrade = () => {
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
+
+  const createStripeSession = async () => {
+    setLoading(true);
+    try {
+      const stripe = await stripePromise;
+      const checkoutSession = await axios.post("/api/checkout_sessions", {
+        items: {
+          title: "12 Credits",
+          price: 1,
+        },
+        email: user?.primaryEmailAddress?.emailAddress,
+      });
+
+      console.log(checkoutSession);
+
+      //redirect to checkout session
+      const result = await stripe.redirectToCheckout({
+        sessionId: checkoutSession.data.id,
+      });
+
+      if (result?.error) {
+        console.log(result.error.message);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log("Error while creating checkout session", error);
+      toast.error("Error while checkingOUt. Please try again later!");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="p-10">
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -39,10 +83,18 @@ const Upgrade = () => {
 
               {item?.cost > 0 && (
                 <a
-                  href="#"
-                  className="mt-8 block rounded-full border border-indigo-600 bg-white px-12 py-3 text-center text-sm font-medium text-indigo-600 hover:ring-1 hover:ring-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                  disabled={loading}
+                  onClick={() => createStripeSession()}
+                  className="mt-8 block rounded-full cursor-pointer border border-indigo-600 bg-white px-12 py-3 text-center text-sm font-medium text-indigo-600 hover:ring-1 hover:ring-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                 >
-                  Get Started
+                  {loading ? (
+                    <>
+                      <Loader className="animate-spin" /> Loading please
+                      wait....
+                    </>
+                  ) : (
+                    "Buy Now"
+                  )}
                 </a>
               )}
             </div>

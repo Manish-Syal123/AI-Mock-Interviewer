@@ -18,6 +18,8 @@
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@stripe/stripe-js": "^4.1.0",
+    "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.32.0",
@@ -31,6 +33,7 @@
     "react-hook-speech-to-text": "^0.8.0",
     "react-webcam": "^7.2.0",
     "sonner": "^1.5.0",
+    "stripe": "^16.2.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^10.0.0"
