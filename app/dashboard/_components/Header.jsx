@@ -8,7 +8,12 @@ const Header = () => {
   const path = usePathname();
   const router = useRouter();
   return (
-    <div className="flex p-4 items-center justify-between bg-secondary shadow-sm">
+    <div
+      className={`flex p-4 items-center justify-between 
+      bg-secondary shadow-sm relative z-20 ${
+        path == "/dashboard/success" && "hidden"
+      }`}
+    >
       <Image src="/logo2.png" width={160} height={100} alt="logo" />
       <ul className=" hidden md:flex gap-6">
         <li
