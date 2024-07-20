@@ -28,7 +28,7 @@ export async function POST(request) {
       },
       line_items: formattedItems,
       mode: "payment",
-      success_url: `${process.env.HOSTURL}/dashboard/success`,
+      success_url: `${process.env.HOSTURL}/dashboard/success?session_id=${process.env.SUCCESS_QUERRY_PARAMETER_SECRET_KEY}`,
       cancel_url: `${process.env.HOSTURL}/dashboard`,
       metadata: {
         customer_email: email,

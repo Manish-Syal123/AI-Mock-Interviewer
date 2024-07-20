@@ -1,13 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import PaymentSuccefull from "@/public/PaymentSuccefull.json";
 import PaymentCheck from "@/public/PaymentCheck.json";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+
 const SuccessPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+
+  useEffect(() => {
+    if (sessionId) {
+      console.log("Payment Result ✅✅✅", sessionId);
+    }
+  }, []);
+
   return (
     <>
       <div className="flex justify-start -mx-32 mt-3">

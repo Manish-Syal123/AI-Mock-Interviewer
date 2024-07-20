@@ -1,10 +1,11 @@
 "use client";
+import { UserInfoContext } from "@/context/UserInfoContext";
 import planData from "@/utils/planData";
 import { useUser } from "@clerk/nextjs";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { Loader } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
 const stripePromise = loadStripe(
@@ -12,6 +13,7 @@ const stripePromise = loadStripe(
 );
 const Upgrade = () => {
   const [loading, setLoading] = useState(false);
+  const { paymentResult, setPaymentResult } = useContext(UserInfoContext);
   const { user } = useUser();
 
   const createStripeSession = async () => {
@@ -38,6 +40,7 @@ const Upgrade = () => {
         setLoading(false);
         return;
       }
+
       setLoading(false);
     } catch (error) {
       console.log("Error while creating checkout session", error);
