@@ -1,4 +1,5 @@
 "use client";
+import { UpdateUserPaymentSecretKey } from "@/app/_Serveractions";
 import { UserInfoContext } from "@/context/UserInfoContext";
 import planData from "@/utils/planData";
 import { useUser } from "@clerk/nextjs";
@@ -7,6 +8,7 @@ import axios from "axios";
 import { Loader } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -20,12 +22,24 @@ const Upgrade = () => {
     setLoading(true);
     try {
       const stripe = await stripePromise;
+
+      //Generate PaymentSecretKey
+      const Payment_SecretKey = uuidv4();
+
+      // store the payment secret key in the database
+      await UpdateUserPaymentSecretKey(
+        user?.primaryEmailAddress?.emailAddress,
+        Payment_SecretKey
+      );
+      // setPaymentResult(Payment_SecretKey);
+
       const checkoutSession = await axios.post("/api/checkout_sessions", {
         items: {
           title: "12 Credits",
           price: 1,
         },
         email: user?.primaryEmailAddress?.emailAddress,
+        paymentSecretKey: Payment_SecretKey,
       });
 
       console.log(checkoutSession);

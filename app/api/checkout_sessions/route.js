@@ -5,8 +5,9 @@ export async function POST(request) {
   try {
     const body = await request.json();
     console.log(body);
-    const { items, email } = body;
+    const { items, email, paymentSecretKey } = body;
 
+    console.log("Payment Secret Key: ", paymentSecretKey);
     const formattedItems = [
       {
         price_data: {
@@ -28,7 +29,7 @@ export async function POST(request) {
       },
       line_items: formattedItems,
       mode: "payment",
-      success_url: `${process.env.HOSTURL}/dashboard/success?session_id=${process.env.SUCCESS_QUERRY_PARAMETER_SECRET_KEY}`,
+      success_url: `${process.env.HOSTURL}/dashboard/success?session_id=${paymentSecretKey}`,
       cancel_url: `${process.env.HOSTURL}/dashboard`,
       metadata: {
         customer_email: email,

@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/utils/db";
 import { MOCKInterview, UserDetails } from "@/utils/schema";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 export const GetInterviewList = async (email) => {
   try {
@@ -29,6 +29,42 @@ export const UpdateUserCredits = async (email, newCredits) => {
     return result;
   } catch (error) {
     console.log("Error updating user credits", error);
+    throw error;
+  }
+};
+
+export const UpdateUserPaymentSecretKey = async (
+  email,
+  newPaymentSecretKey
+) => {
+  try {
+    const result = await db
+      .update(UserDetails)
+      .set({ paymentSecretKey: newPaymentSecretKey })
+      .where(eq(UserDetails?.userEmail, email));
+    console.log("User payment secret key updated 🚀", result);
+    return result;
+  } catch (error) {
+    console.log("Error updating user payment secret key", error);
+    throw error;
+  }
+};
+
+export const MatchUserPaymentSecretKey = async (email, paymentSecretKey) => {
+  try {
+    const result = await db
+      .select()
+      .from(UserDetails)
+      .where(
+        and(
+          eq(UserDetails?.userEmail, email),
+          eq(UserDetails?.paymentSecretKey, paymentSecretKey)
+        )
+      );
+    console.log("User payment secret key matched 🚀", result);
+    return result;
+  } catch (error) {
+    console.log("Error matching user payment secret key", error);
     throw error;
   }
 };

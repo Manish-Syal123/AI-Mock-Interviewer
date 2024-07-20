@@ -28,5 +28,6 @@ export const UserDetails = pgTable("userDetails", {
   userEmail: varchar("userEmail").unique().notNull(),
   credits: integer("credits").default(6).notNull(),
   totalAmountSpent: integer("totalAmountSpent").default(0).notNull(), // total amount spent by user to buy credits
+  paymentSecretKey: varchar("paymentSecretKey"),
   createdAt: varchar("createdAt"),
 });

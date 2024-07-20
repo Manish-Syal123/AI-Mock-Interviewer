@@ -6,17 +6,38 @@ import PaymentCheck from "@/public/PaymentCheck.json";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { MatchUserPaymentSecretKey } from "@/app/_Serveractions";
+import { useUser } from "@clerk/nextjs";
 
 const SuccessPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
+  const paymentkeyQueryParam = searchParams.get("session_id");
+  const { user } = useUser();
 
   useEffect(() => {
-    if (sessionId) {
-      console.log("Payment Result ✅✅✅", sessionId);
+    if (paymentkeyQueryParam) {
+      console.log("Payment key ✅✅✅", paymentkeyQueryParam);
+      Matchpaymentsecretkey();
     }
   }, []);
+
+  const Matchpaymentsecretkey = async () => {
+    try {
+      const result = await MatchUserPaymentSecretKey(
+        user?.primaryEmailAddress?.emailAddress,
+        paymentkeyQueryParam
+      );
+      if (result) {
+        console.log("User payment secret key matched 🚀", result);
+      } else {
+        console.log("User payment secret key not matched 🚀", result);
+      }
+      // console.log("User payment secret key matched 🚀", result);
+    } catch (error) {
+      console.error("Error matching user payment secret key", error);
+    }
+  };
 
   return (
     <>
