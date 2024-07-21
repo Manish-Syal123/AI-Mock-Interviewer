@@ -1,26 +1,38 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import PaymentSuccefull from "@/public/PaymentSuccefull.json";
 import PaymentCheck from "@/public/PaymentCheck.json";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MatchUserPaymentSecretKey } from "@/app/_Serveractions";
+import {
+  MatchUserPaymentSecretKey,
+  RemoveUserPaymentSecretKey,
+  updateCreditsAndTotalSpent,
+} from "@/app/_Serveractions";
 import { useUser } from "@clerk/nextjs";
+import { UserInfoContext } from "@/context/UserInfoContext";
 
 const SuccessPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paymentkeyQueryParam = searchParams.get("session_id");
+  const [loading, setLoading] = useState(true);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { user } = useUser();
 
   useEffect(() => {
-    if (paymentkeyQueryParam) {
+    if (paymentkeyQueryParam && userInfo) {
       console.log("Payment key ✅✅✅", paymentkeyQueryParam);
-      Matchpaymentsecretkey();
+      console.log("user Info 🤑🤑🤑: ", userInfo);
+      const makebackendcall = async () => {
+        userInfo && (await Matchpaymentsecretkey());
+      };
+
+      makebackendcall();
     }
-  }, []);
+  }, [userInfo, paymentkeyQueryParam]);
 
   const Matchpaymentsecretkey = async () => {
     try {
@@ -30,12 +42,63 @@ const SuccessPage = () => {
       );
       if (result) {
         console.log("User payment secret key matched 🚀", result);
+
+        await DeletePaymentSecretKeyFromDB();
       } else {
         console.log("User payment secret key not matched 🚀", result);
       }
-      // console.log("User payment secret key matched 🚀", result);
     } catch (error) {
       console.error("Error matching user payment secret key", error);
+    }
+  };
+
+  const DeletePaymentSecretKeyFromDB = async () => {
+    try {
+      const result = await RemoveUserPaymentSecretKey(
+        user?.primaryEmailAddress?.emailAddress
+      );
+      if (result) {
+        console.log("User payment secret key deleted 🚀", result);
+        await AddCreditsOnUserAccount(); //after deleting payment key Add 12 credits to the user's account
+      } else {
+        console.log("User payment secret key not deleted 🚀", result);
+      }
+    } catch (error) {
+      console.error("Error deleting user payment secret key", error);
+    }
+  };
+
+  const AddCreditsOnUserAccount = async () => {
+    try {
+      const currentCredits = userInfo?.credits || 0;
+      const newCredits = currentCredits + 12;
+      const email = user?.primaryEmailAddress?.emailAddress;
+      let newTotalSpent = userInfo?.totalSpent || 0;
+      newTotalSpent += 1;
+
+      // if (!isNaN(newTotalSpent) && typeof newTotalSpent === "number") {
+      //   newTotalSpent += 1;
+      // }
+
+      if (!isNaN(newCredits) && typeof newCredits === "number") {
+        const creditsUpdated = await updateCreditsAndTotalSpent(
+          email,
+          newCredits,
+          newTotalSpent
+        );
+        if (creditsUpdated) {
+          // setUserInfo((prevUserInfo) => ({
+          //   ...prevUserInfo,
+          //   credits: newCredits,
+          //   totalSpent: newTotalSpent,
+          // }));
+          console.log("User credits updated: 🎉🎉🎉", newCredits);
+        }
+      } else {
+        console.log("Invalid credits value:", newCredits);
+      }
+    } catch (error) {
+      console.error("Error updating user credits", error);
     }
   };
 

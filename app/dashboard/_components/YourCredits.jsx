@@ -34,7 +34,7 @@ const YourCredits = () => {
   const remainingCredits = totalCredits - creditsUsed * 2;
 
   const calculatePercentageWidth = () => {
-    const percentage = (creditsUsed / totalCredits) * 100;
+    const percentage = Math.floor((creditsUsed / totalCredits) * 100);
     return percentage >= 100 ? 100 : percentage;
   };
   return (

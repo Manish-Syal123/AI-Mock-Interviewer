@@ -13,26 +13,30 @@ const DashboardLayout = ({ children }) => {
   const { user } = useUser();
 
   useEffect(() => {
-    user && GetUserInfo();
-  }, [user]);
-  const GetUserInfo = async () => {
-    try {
-      const result = await db
-        .select()
-        .from(UserDetails)
-        .where(
-          eq(UserDetails?.userEmail, user?.primaryEmailAddress?.emailAddress)
-        );
+    const GetUserInfo = async () => {
+      try {
+        const result = await db
+          .select()
+          .from(UserDetails)
+          .where(
+            eq(UserDetails?.userEmail, user?.primaryEmailAddress?.emailAddress)
+          );
 
-      // console.log("User Details/Info : ", result[0]);
-      if (result) {
-        setUserInfo(result[0]);
-        console.log(userInfo);
+        // console.log("User Details/Info : ", result[0]);
+        if (result.length > 0) {
+          setUserInfo(result[0]);
+          console.log(result[0]); // Log the result directly
+        }
+      } catch (error) {
+        console.error("Error Fetching UserInfo : ", error);
       }
-    } catch (error) {
-      console.error("Error Fetching UserInfo : ", error);
+    };
+
+    if (user) {
+      GetUserInfo();
     }
-  };
+  }, [user]); // Only depend on 'user'
+
   return (
     <UserInfoContext.Provider
       value={{ userInfo, setUserInfo, paymentResult, setPaymentResult }}
