@@ -15,7 +15,6 @@ const stripePromise = loadStripe(
 );
 const Upgrade = () => {
   const [loading, setLoading] = useState(false);
-  const { paymentResult, setPaymentResult } = useContext(UserInfoContext);
   const { user } = useUser();
 
   const createStripeSession = async () => {
@@ -31,7 +30,6 @@ const Upgrade = () => {
         user?.primaryEmailAddress?.emailAddress,
         Payment_SecretKey
       );
-      // setPaymentResult(Payment_SecretKey);
 
       const checkoutSession = await axios.post("/api/checkout_sessions", {
         items: {
@@ -81,7 +79,7 @@ const Upgrade = () => {
 
                 <p className="mt-2 sm:mt-4">
                   <strong className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                    {item?.cost} Rs
+                    {item?.cost} $
                   </strong>
 
                   <span className="text-sm font-medium text-gray-700">

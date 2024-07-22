@@ -20,8 +20,8 @@ export default [
   },
   {
     id: 1,
-    name: "Monthly",
-    cost: 20,
+    name: "Buy Credits",
+    cost: 1,
     paymentLink: "",
     offering: [
       {

@@ -31,10 +31,13 @@ const YourCredits = () => {
 
   const totalCredits = userInfo?.credits || 0;
   const creditsUsed = totalInterviewsCreated * 2 || 0;
-  const remainingCredits = totalCredits - creditsUsed * 2;
+  const ActualCreditsExceptFreeCredits =
+    creditsUsed - 6 < 0 ? 0 : creditsUsed - 6;
 
   const calculatePercentageWidth = () => {
-    const percentage = Math.floor((creditsUsed / totalCredits) * 100);
+    const percentage = Math.floor(
+      (ActualCreditsExceptFreeCredits / totalCredits) * 100
+    );
     return percentage >= 100 ? 100 : percentage;
   };
   return (
@@ -52,7 +55,7 @@ const YourCredits = () => {
       </div>
       <div className="flex justify-between mt-4 text-sm">
         <h2 className="font-bold text-gray-400">
-          Credits Used: {creditsUsed}{" "}
+          Credits Used: {ActualCreditsExceptFreeCredits}{" "}
         </h2>
         <h2 className="font-bold text-gray-400">
           percentage : {calculatePercentageWidth()}%
