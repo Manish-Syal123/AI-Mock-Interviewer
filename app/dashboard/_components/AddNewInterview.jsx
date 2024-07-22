@@ -89,7 +89,7 @@ const AddNewInterview = () => {
           }
 
           //logic to Update Credits
-          updateCredits();
+          await updateCredits();
         }
       } catch (error) {
         console.error("Error while adding response to Backend : ", error);
@@ -103,15 +103,21 @@ const AddNewInterview = () => {
   };
 
   const updateCredits = async () => {
-    if (user && userInfo?.credits > 0) {
+    if (userInfo && userInfo?.credits > 0) {
       try {
         const newCredits = userInfo?.credits - 2;
         const email = user?.primaryEmailAddress?.emailAddress;
-        await UpdateUserCredits(email, newCredits);
-        setUserInfo((prevUserInfo) => ({
-          ...prevUserInfo,
-          credits: newCredits,
-        }));
+        const res = await UpdateUserCredits(email, newCredits);
+        if (res) {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            credits: newCredits,
+          }));
+
+          console.log("User credits updated: 🎉🎉🎉", res, newCredits);
+        } else {
+          console.log("Unable to Update Credits:", res);
+        }
       } catch (error) {
         console.log("Error updating user credits", error);
       }
@@ -185,7 +191,9 @@ const AddNewInterview = () => {
                     onClick={() => setOpenDialog(false)}
                     type="button"
                     variant="ghost"
-                    className="hover:border hover:border-gray-500"
+                    className={`hover:border hover:border-gray-500 ${
+                      loading && "hidden"
+                    }`}
                   >
                     Cancel
                   </Button>
