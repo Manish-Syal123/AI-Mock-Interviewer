@@ -1,3 +1,4 @@
+"use client";
 import { GetInterviewList } from "@/app/_Serveractions";
 import { UserInfoContext } from "@/context/UserInfoContext";
 import { useUser } from "@clerk/nextjs";
@@ -58,7 +59,8 @@ const YourCredits = () => {
           Credits Used: {ActualCreditsExceptFreeCredits}{" "}
         </h2>
         <h2 className="font-bold text-gray-400">
-          percentage : {calculatePercentageWidth()}%
+          {/* percentage : {calculatePercentageWidth()}% */}
+          TotalSpent: {userInfo?.totalAmountSpent || 0} $
         </h2>
       </div>
       <div className="w-full bg-slate-300 h-3 rounded-full mt-2">
@@ -69,6 +71,9 @@ const YourCredits = () => {
           }}
         ></div>
       </div>
+      <h2 className=" flex justify-end text-xs mt-1 font-bold text-gray-400">
+        Used: {calculatePercentageWidth() || 0}%
+      </h2>
     </div>
   );
 };
