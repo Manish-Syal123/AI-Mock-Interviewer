@@ -31,7 +31,11 @@ const InterviewList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
         {interviewList &&
           interviewList?.map((interview, index) => (
-            <InterviewItemCard key={index} interview={interview} />
+            <InterviewItemCard
+              key={index}
+              interview={interview}
+              refreshCallBack={() => GetInterviewList()}
+            />
           ))}
       </div>
     </div>

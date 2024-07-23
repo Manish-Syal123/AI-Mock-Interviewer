@@ -102,3 +102,17 @@ export const updateCreditsAndTotalSpent = async (
     throw error;
   }
 };
+
+export const UpdateFavorite = async (favourite, mockid) => {
+  try {
+    const result = await db
+      .update(MOCKInterview)
+      .set({ favourite: favourite })
+      .where(eq(MOCKInterview?.mockId, mockid));
+    console.log("User favorite updated 🚀", result);
+    return result;
+  } catch (error) {
+    console.error("Error updating user favorite", error);
+    throw error;
+  }
+};
