@@ -20,7 +20,7 @@ const InterviewItemCard = ({ interview, refreshCallBack }) => {
       );
       if (result) {
         console.log("User favorite updated 🚀", result);
-        toast.success("Added to Favourites");
+        toast.success("Updated your Favourites interview list");
         refreshCallBack();
       }
     } catch (error) {
