@@ -26,12 +26,13 @@ const Header = () => {
           Dashboard
         </li>
         <li
+          onClick={() => router.replace("/dashboard/favourites")}
           className={`font-medium hover:text-primary hover:font-extrabold 
         transition-all cursor-pointer
         ${path == "/dashboard/questions" && "text-primary font-extrabold"}
         `}
         >
-          Promotions
+          Favourites
         </li>
         <li
           onClick={() => router.replace("/dashboard/upgrade")}
@@ -41,14 +42,6 @@ const Header = () => {
         `}
         >
           Upgrade
-        </li>
-        <li
-          className={`font-medium hover:text-primary hover:font-extrabold 
-        transition-all cursor-pointer
-        ${path == "/dashboard/how" && "text-primary font-extrabold"}
-        `}
-        >
-          How it Works?
         </li>
       </ul>
       <UserButton />

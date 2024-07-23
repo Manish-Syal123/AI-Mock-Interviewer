@@ -1,12 +1,30 @@
 import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa6";
 
 const InterviewItemCard = ({ interview }) => {
+  const [toggleFavourite, setToggleFavorite] = useState(false);
   const router = useRouter();
   return (
     <div className="border shadow-sm rounded-lg p-3">
-      <h2 className="font-bold text-primary">{interview?.jobPosition}</h2>
+      <div className="flex justify-between">
+        <h2 className="font-bold text-primary">{interview?.jobPosition}</h2>
+
+        {toggleFavourite ? (
+          <FaStar
+            size={25}
+            onClick={() => setToggleFavorite(!toggleFavourite)}
+            className="cursor-pointer text-yellow-400"
+          />
+        ) : (
+          <Star
+            onClick={() => setToggleFavorite(!toggleFavourite)}
+            className="cursor-pointer"
+          />
+        )}
+      </div>
       <h2 className="text-sm font-medium text-gray-600">
         {interview?.jobExperience} Years of Experience
       </h2>

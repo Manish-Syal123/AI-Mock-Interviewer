@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import { HiSparkles } from "react-icons/hi2";
 
 const YourCredits = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -47,7 +48,9 @@ const YourCredits = () => {
         onClick={() => router.push("/dashboard/upgrade")}
         className="flex gap-2 cursor-pointer hover:text-primary hover:font-extrabold transition-all"
       >
-        <Sparkles />
+        {/* <Sparkles /> */}
+        <HiSparkles size={27} />
+
         <h2 className="font-bold text-primary text-2xl">Upgrade</h2>
       </div>
 
