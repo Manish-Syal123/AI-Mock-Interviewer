@@ -29,7 +29,7 @@ const Header = () => {
           onClick={() => router.replace("/dashboard/favourites")}
           className={`font-medium hover:text-primary hover:font-extrabold 
         transition-all cursor-pointer
-        ${path == "/dashboard/questions" && "text-primary font-extrabold"}
+        ${path == "/dashboard/favourites" && "text-primary font-extrabold"}
         `}
         >
           Favourites

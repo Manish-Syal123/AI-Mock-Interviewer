@@ -7,6 +7,7 @@ import moment from "moment";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { eq } from "drizzle-orm";
+import LandingPage from "./_Serveractions/LandingPage";
 
 export default function Home() {
   const { user, isSignedIn } = useUser();
@@ -40,7 +41,8 @@ export default function Home() {
           toast.success("User Details added successfully");
         }
       } else {
-        toast.info("User email already exists");
+        // toast.info("User email already exists");
+        // console.log("User email already exists");
       }
     } catch (error) {
       console.error("Error adding user details:", error);
@@ -49,8 +51,7 @@ export default function Home() {
   };
   return (
     <div>
-      Hello, Manish Syal
-      <Button>Get Started</Button>
+      <LandingPage />
     </div>
   );
 }
