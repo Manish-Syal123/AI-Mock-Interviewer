@@ -14,8 +14,14 @@ const Header = () => {
         path == "/dashboard/success" && "hidden"
       }`}
     >
-      <Image src="/logo2.png" width={160} height={100} alt="logo" />
-      <ul className=" hidden md:flex gap-6">
+      <Image
+        src="/logo2.png"
+        width={160}
+        height={100}
+        alt="logo"
+        onClick={() => router.replace("/")}
+      />
+      <ul className="hidden md:flex gap-6">
         <li
           onClick={() => router.replace("/dashboard")}
           className={`font-medium hover:text-primary hover:font-extrabold 

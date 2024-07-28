@@ -1,21 +1,51 @@
-import Header from "../dashboard/_components/Header";
 import React from "react";
 import { HiSparkles } from "react-icons/hi2";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { GiBrain } from "react-icons/gi";
+import { UserButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function LandingPage() {
+  const { user, isSignedIn } = useUser();
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
+      <div className="flex justify-between p-2 shadow-sm">
+        <Image
+          src="/logo2.png"
+          width={160}
+          height={100}
+          alt="logo"
+          onClick={() => router.replace("/")}
+        />
+        {isSignedIn ? (
+          <div className="flex justify-between items-center gap-3">
+            <Link href="/dashboard">
+              <Button variant="outline" className="border-2 border-primary">
+                Dashboard
+              </Button>
+            </Link>{" "}
+            <UserButton />
+          </div>
+        ) : (
+          <Button>Get Started</Button>
+        )}
+      </div>
       <div>
-        {/* <img src={'/grid.svg'} className="absolute z-[-10] w-full" 
-      width={1200} height={300} /> */}
+        <img
+          src={"/hexagrid3.jpg"}
+          className="absolute z-[-10] w-full  md:block lg:hidden"
+          width={1200}
+          height={300}
+        />
         {/* <Header/> */}
         <section className=" z-50">
           <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
             <a
-              href="#"
+              href="https://manish-ai-resume-builder.vercel.app/"
+              target="_blank"
               className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               role="alert"
             >
@@ -23,7 +53,7 @@ function LandingPage() {
                 New
               </span>{" "}
               <span className="text-sm font-medium">
-                ManishSyal.com All new Apps
+                Manish - AI Resume Builder
               </span>
               <svg
                 className="ml-2 w-5 h-5"
