@@ -30,7 +30,9 @@ function LandingPage() {
             <UserButton />
           </div>
         ) : (
-          <Button>Get Started</Button>
+          <Link href="/dashboard">
+            <Button>Get Started</Button>
+          </Link>
         )}
       </div>
       <div>
