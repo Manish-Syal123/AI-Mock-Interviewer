@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Header from "./_components/Header";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/utils/db";
 import { UserDetails } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { UserInfoContext } from "@/context/UserInfoContext";
+import Loading from "./loading.js";
 
 const DashboardLayout = ({ children }) => {
   const [userInfo, setUserInfo] = useState();
@@ -41,10 +42,12 @@ const DashboardLayout = ({ children }) => {
     <UserInfoContext.Provider
       value={{ userInfo, setUserInfo, paymentResult, setPaymentResult }}
     >
-      <div>
-        <Header />
-        <div className="mx-5 md:mx-20 lg:mx-36">{children}</div>
-      </div>
+      <Suspense fallback={<Loading />}>
+        <div>
+          <Header />
+          <div className="mx-5 md:mx-20 lg:mx-36">{children}</div>
+        </div>
+      </Suspense>
     </UserInfoContext.Provider>
   );
 };
