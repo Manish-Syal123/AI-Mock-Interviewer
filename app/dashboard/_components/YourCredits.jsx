@@ -88,7 +88,11 @@ const YourCredits = () => {
           </div>
           <div className="flex justify-between mt-4 text-sm">
             <h2 className="font-bold text-gray-400">
-              Credits Used: {ActualCreditsExceptFreeCredits}
+              {/* Credits Used: {ActualCreditsExceptFreeCredits} */}
+              Credits Used:{" "}
+              {userInfo?.creditsUsed - 6 <= 0
+                ? 0
+                : userInfo?.creditsUsed || ActualCreditsExceptFreeCredits}
             </h2>
             <h2 className="font-bold text-gray-400">
               TotalSpent: {userInfo?.totalAmountSpent || 0} $

@@ -132,3 +132,17 @@ export const DeleteInterview = async (mockid) => {
     throw error;
   }
 };
+
+export const UpdateCreditsUsed = async (email, creditsUsed) => {
+  try {
+    const result = await db
+      .update(UserDetails)
+      .set({ creditsUsed: creditsUsed })
+      .where(eq(UserDetails?.userEmail, email));
+    console.log("User credits used updated 🚀", result);
+    return result;
+  } catch (error) {
+    console.error("Error updating user credits used", error);
+    throw error;
+  }
+};

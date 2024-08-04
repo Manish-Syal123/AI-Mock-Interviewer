@@ -33,7 +33,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { UpdateUserCredits } from "@/app/_Serveractions";
+import { UpdateCreditsUsed, UpdateUserCredits } from "@/app/_Serveractions";
 
 const AddNewInterview = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -90,6 +90,8 @@ const AddNewInterview = () => {
 
           //logic to Update Credits
           await updateCredits();
+          //logic to Update CreditsUsed
+          await updateCreditsUsed();
         }
       } catch (error) {
         console.error("Error while adding response to Backend : ", error);
@@ -123,6 +125,22 @@ const AddNewInterview = () => {
       }
     }
   };
+
+  const updateCreditsUsed = async () => {
+    const newUsedCredits = userInfo?.creditsUsed + 2;
+    const email = user?.primaryEmailAddress?.emailAddress;
+    const res = await UpdateCreditsUsed(email, newUsedCredits);
+    if (res) {
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        creditsUsed: newUsedCredits,
+      }));
+      console.log("User creditsUsed updated: 🎉🎉🎉", res, newUsedCredits);
+    } else {
+      console.error("Unable to Update CreditsUsed:", res);
+    }
+  };
+
   return (
     <div>
       <div
@@ -194,6 +212,7 @@ const AddNewInterview = () => {
                     className={`hover:border hover:border-gray-500 ${
                       loading && "hidden"
                     }`}
+                    disabled={loading}
                   >
                     Cancel
                   </Button>
