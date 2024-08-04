@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/utils/db";
-import { MOCKInterview, UserDetails } from "@/utils/schema";
+import { MOCKInterview, UserAnswer, UserDetails } from "@/utils/schema";
 import { and, desc, eq } from "drizzle-orm";
 
 export const GetInterviewList = async (email) => {
@@ -113,6 +113,22 @@ export const UpdateFavorite = async (favourite, mockid) => {
     return result;
   } catch (error) {
     console.error("Error updating user favorite", error);
+    throw error;
+  }
+};
+
+export const DeleteInterview = async (mockid) => {
+  try {
+    // delete all user answers of the interview
+    await db.delete(UserAnswer).where(eq(UserAnswer?.mockIdRef, mockid));
+    // delete the interview
+    const result = await db
+      .delete(MOCKInterview)
+      .where(eq(MOCKInterview?.mockId, mockid));
+    console.log("Interview deleted 🚀", result);
+    return result;
+  } catch (error) {
+    console.error("Error deleting interview", error);
     throw error;
   }
 };

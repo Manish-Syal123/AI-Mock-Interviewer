@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,13 +57,13 @@ const Header = () => {
       <div className="flex items-center">
         <UserButton />
         <div className="md:hidden flex justify-end ml-4">
-          <button onClick={() => setMenuIcon(!menuIcon)}>
+          <Button onClick={() => setMenuIcon(!menuIcon)}>
             {menuIcon ? (
               <CgClose className="text-2xl" />
             ) : (
               <CgMenu className="text-2xl" />
             )}
-          </button>
+          </Button>
         </div>
       </div>
 

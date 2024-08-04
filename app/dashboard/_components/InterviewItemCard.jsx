@@ -1,13 +1,25 @@
-import { UpdateFavorite } from "@/app/_Serveractions";
+import { DeleteInterview, UpdateFavorite } from "@/app/_Serveractions";
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import { LoaderCircle, Star, Trash, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const InterviewItemCard = ({ interview, refreshCallBack }) => {
   const [toggleFavourite, setToggleFavorite] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleFavourite = async () => {
@@ -28,6 +40,23 @@ const InterviewItemCard = ({ interview, refreshCallBack }) => {
       toast.error("Error updating user favorite");
     }
     // console.log(interview?.mockId);
+  };
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const result = await DeleteInterview(interview?.mockId);
+      if (result) {
+        console.log("Interview deleted 🚀", result);
+        toast.success("Deleted interview successfully !");
+        refreshCallBack();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error deleting interview", error);
+      toast.error("Error deleting interview. Please try again later.");
+      setLoading(false);
+    }
   };
   return (
     <div className="border shadow-sm rounded-lg p-3">
@@ -50,7 +79,7 @@ const InterviewItemCard = ({ interview, refreshCallBack }) => {
       <h2 className="text-xs text-gray-400">
         Created At: {interview?.createdAt}
       </h2>
-      <div className="flex justify-between items-center mt-2 gap-5">
+      <div className="grid grid-col-2 lg:grid-cols-3 items-center mt-2 gap-5">
         <Button
           onClick={() =>
             router.push(
@@ -72,6 +101,39 @@ const InterviewItemCard = ({ interview, refreshCallBack }) => {
         >
           Start
         </Button>
+
+        <AlertDialog>
+          <AlertDialogTrigger className="flex justify-center lg:justify-end">
+            <Button
+              disabled={loading}
+              className="text-red-500"
+              size="sm"
+              variant="outline"
+            >
+              {loading ? (
+                <LoaderCircle className="text-red-500 animate-spin" />
+              ) : (
+                <Trash2 />
+              )}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                Interview from your account and remove your data from our
+                servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete} className="bg-red-500">
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
