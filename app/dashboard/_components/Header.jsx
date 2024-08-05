@@ -21,6 +21,7 @@ const Header = () => {
         src="/logo2.png"
         width={160}
         height={100}
+        objectFit="contain"
         alt="logo"
         onClick={() => router.replace("/")}
         className="cursor-pointer"

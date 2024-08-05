@@ -13,13 +13,16 @@ function LandingPage() {
     <div>
       {/* <Header /> */}
       <div className="flex justify-between p-2 shadow-sm">
-        <Image
-          src="/logo2.png"
-          width={160}
-          height={100}
-          alt="logo"
-          onClick={() => router.replace("/")}
-        />
+        <div className="flex items-center justify-between ">
+          <Image
+            src="/logo2.png"
+            width={160}
+            height={100}
+            objectFit="contain"
+            alt="logo"
+          />
+        </div>
+
         {isSignedIn ? (
           <div className="flex justify-between items-center gap-3">
             <Link href="/dashboard">

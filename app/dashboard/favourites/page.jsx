@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import InterviewItemCard from "../_components/InterviewItemCard";
 import Loading from "../_components/Loading"; // Assuming you have a Loading component
 import NoDataFound from "../_components/NoDataFound";
+import Lottie from "lottie-react";
+import Favourite_Astronaut from "@/public/Favourite_Astronaut.json";
 
 const FavouriteInterviews = () => {
   const [interviewList, setInterviewList] = useState([]);
@@ -49,21 +51,30 @@ const FavouriteInterviews = () => {
           <Loading />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
-          {filteredList.length > 0 ? (
-            filteredList.map((favinterview, index) => (
-              <InterviewItemCard
-                key={index}
-                interview={favinterview}
-                refreshCallBack={() => getInterviewList()}
-              />
-            ))
-          ) : (
-            <div className="col-span-3">
-              <NoDataFound message="No favourite interviews found !!" />
-            </div>
-          )}
-        </div>
+        <>
+          <div>
+            <Lottie
+              animationData={Favourite_Astronaut}
+              loop={true}
+              className="h-72 m-auto"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
+            {filteredList.length > 0 ? (
+              filteredList.map((favinterview, index) => (
+                <InterviewItemCard
+                  key={index}
+                  interview={favinterview}
+                  refreshCallBack={() => getInterviewList()}
+                />
+              ))
+            ) : (
+              <div className="col-span-3">
+                <NoDataFound message="No favourite interviews found !!" />
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
