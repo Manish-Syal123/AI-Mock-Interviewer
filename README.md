@@ -14,6 +14,10 @@ pnpm dev
 bun dev
 ```
 
+### Check Payment integration Flow
+
+Open [https://app.eraser.io/workspace/VJpvrpJEdMU9AEjBXPrw](app.eraser.io) with your browser to see the Payment integration Flow.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
